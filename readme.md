@@ -1,3 +1,3 @@
-TheMovieDB-API
+#TheMovieDB-API
 
-==============
+Simple class API themoviedb
