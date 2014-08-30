@@ -70,7 +70,7 @@ class TheMovieDB{
      */
     private function showAll($page = 1,&$resArray = array())
     {
-        $this->param['page'] = $page;
+        $this->params['page'] = $page;
         $data = $this->getData();
         if($data['total_pages'] > 1 && $page <= $data['total_pages'])
         {
@@ -80,6 +80,10 @@ class TheMovieDB{
                array_push($resArray,$value);
             }
             $this->showAll($page,$resArray);
+        }
+        else
+        {
+            return $this->getData();
         }
         return $resArray;
     }
