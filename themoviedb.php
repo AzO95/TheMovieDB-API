@@ -10,6 +10,7 @@ class TheMovieDB{
     private $api_langage;
     private $params = array();
 
+
     /**
      * Constructor
      * @param string $api_key     API KEY
