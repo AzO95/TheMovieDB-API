@@ -124,7 +124,7 @@ class TheMovieDB{
         }
         else
         {
-            $this->api_langage = "en";
+            $this->api_langage = NULL;
             $this->params['query'] = '/movie/'.$id_movie.'/videos';
             return $this->getData();
         }
