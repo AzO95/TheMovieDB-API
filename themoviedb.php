@@ -115,9 +115,9 @@ class TheMovieDB{
      * @param null $all_lang
      * @return array
      */
-    public function getMovieVideos($id_movie, $all_lang = NULL)
+    public function getMovieVideos($id_movie, $lang = NULL)
     {
-        if($all_lang !== NULL)
+        if($lang !== NULL)
         {
             $this->params['query'] = '/movie/'.$id_movie.'/videos';
             return $this->getData();
