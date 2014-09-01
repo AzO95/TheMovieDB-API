@@ -9,7 +9,7 @@ class TheMovieDB{
 
     private $api_key;
     private $api_langage;
-    private $params = array();
+    private $params = [];
 
 
     /**
@@ -55,6 +55,39 @@ class TheMovieDB{
     }
 
     /**
+     * Get the alternative titles for a specific movie id
+     * @param int $id_movie
+     * @return array
+     */
+    public function getAlternativeTitle($id_movie)
+    {
+        $this->params['query'] = '/movie/'.$id_movie.'/alternative_titles';
+        return $this->getData();
+    }
+
+    /**
+     * Get the cast and crew information for a specific movie id
+     * @param $id_movie
+     * @return array
+     */
+    public function getMovieCredits($id_movie)
+    {
+        $this->params['query'] = '/movie/'.$id_movie.'/credits';
+        return $this->getData();
+    }
+
+    /**
+     * Get the images (posters and backdrops) for a specific movie id
+     * @param $id_movie
+     * @return array
+     */
+    public function getMovieImages($id_movie)
+    {
+        $this->params['query'] = '/movie/'.$id_movie.'/images';
+        return $this->getData();
+    }
+
+    /**
      * Retrieve Popular people
      * @param int $page
      * @return array
@@ -72,7 +105,7 @@ class TheMovieDB{
      * @param  array   $resArray
      * @return array
      */
-    private function showAll($page = 1,&$resArray = array())
+    private function showAll($page = 1,&$resArray = [])
     {
         $this->params['page'] = $page;
         $data = $this->getData();
@@ -93,17 +126,19 @@ class TheMovieDB{
     }
 
     /**
+     * Request CURL
      * @return array
      */
     private function getData()
     {
         if(isset($this->params['page']) && is_int($this->params['page']))
         {
-            $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."&page=".$this->params['page']."&api_key=".$this->api_key."&language=".$this->api_langage."";
+            $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."&page=".$this->params['page']."&api_key=".$this->api_key."&language=".$this->api_langage."&include_image_language=".$this->api_langage.",null";
         }
         else
         {
-           $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."?&api_key=".$this->api_key."&language=".$this->api_langage."";
+           $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."?&api_key=".$this->api_key."&language=".$this->api_langage.",&include_image_language=".$this->api_langage.",null";
+           echo $url;
         }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
