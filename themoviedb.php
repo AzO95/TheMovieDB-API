@@ -55,11 +55,11 @@ class TheMovieDB{
     }
 
     /**
-	* Retrieve Popuplar personn
-	* @param int $page
-	* @return array
-	*/
-    public function getPopularPerson($page = 1)
+     * Retrieve Popular people
+     * @param int $page
+     * @return array
+     */
+    public function getPopularPeople($page = 1)
     {
         $this->params['page'] = $page;
         $this->params['query'] = '/person/popular?';
