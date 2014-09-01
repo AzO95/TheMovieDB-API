@@ -88,6 +88,49 @@ class TheMovieDB{
     }
 
     /**
+     * Get the plot keywords for a specific movie id.
+     * @param int $id_movie
+     * @return array
+     */
+    public function getMovieKeyword($id_movie)
+    {
+        $this->params['query'] = '/movie/'.$id_movie.'/keywords';
+        return $this->getData();
+    }
+
+    /**
+     * Get the release date and certification information by country for a specific movie id.
+     * @param int $id_movie
+     * @return array
+     */
+    public function getMovieRelease($id_movie)
+    {
+        $this->params['query'] = '/movie/'.$id_movie.'/releases';
+        return $this->getData();
+    }
+
+    /**
+     * Get the videos (trailers, teasers, clips, etc...) for a specific movie id.
+     * @param int $id_movie
+     * @param null $all_lang
+     * @return array
+     */
+    public function getMovieVideos($id_movie, $all_lang = NULL)
+    {
+        if($all_lang !== NULL)
+        {
+            $this->params['query'] = '/movie/'.$id_movie.'/videos';
+            return $this->getData();
+        }
+        else
+        {
+            $this->api_langage = "en";
+            $this->params['query'] = '/movie/'.$id_movie.'/videos';
+            return $this->getData();
+        }
+    }
+
+    /**
      * Retrieve Popular people
      * @param int $page
      * @return array
@@ -135,10 +178,13 @@ class TheMovieDB{
         {
             $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."&page=".$this->params['page']."&api_key=".$this->api_key."&language=".$this->api_langage."&include_image_language=".$this->api_langage.",null";
         }
+        elseif($this->api_langage === NULL)
+        {
+            $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."?&api_key=".$this->api_key."";
+        }
         else
         {
            $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."?&api_key=".$this->api_key."&language=".$this->api_langage.",&include_image_language=".$this->api_langage.",null";
-           echo $url;
         }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
