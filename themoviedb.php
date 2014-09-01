@@ -1,9 +1,10 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+
 class TheMovieDB{
 
-    const URL_API     = 'api.themoviedb.org';
+    const url_api     = 'api.themoviedb.org';
     const version_api = '3';
 
     private $api_key;
@@ -12,9 +13,8 @@ class TheMovieDB{
 
 
     /**
-     * Constructor
-     * @param string $api_key     API KEY
-     * @param string $api_langage Langage
+     * @param $api_key
+     * @param string $api_langage
      */
     function __construct($api_key,$api_langage = 'fr')
     {
@@ -23,8 +23,9 @@ class TheMovieDB{
     }
 
     /**
-     * Retrieve All Movie By Title
-     * @param  string $title
+     * Search Movie By Title
+     * @param string $title
+     * @param null $page
      * @return array
      */
     public function searchMovie($title,$page = NULL)
@@ -52,10 +53,12 @@ class TheMovieDB{
         $this->params['query'] = '/movie/'.$id_movie.'';
         return $this->getData();
     }
+
     /**
-     * Retrieve Popuplar personn
-     * @return array
-     */
+	* Retrieve Popuplar personn
+	* @param int $page
+	* @return array
+	*/
     public function getPopularPerson($page = 1)
     {
         $this->params['page'] = $page;
@@ -76,9 +79,9 @@ class TheMovieDB{
         if($data['total_pages'] > 1 && $page <= $data['total_pages'])
         {
             $page++;
-            foreach ($data['results'] as $key => $value)
+            foreach ($data['results'] as $value)
             {
-               array_push($resArray,$value);
+                array_push($resArray,$value);
             }
             $this->showAll($page,$resArray);
         }
@@ -90,19 +93,17 @@ class TheMovieDB{
     }
 
     /**
-     * Execute request curl
-     * @param  integer $page number page
      * @return array
      */
     private function getData()
     {
         if(isset($this->params['page']) && is_int($this->params['page']))
         {
-            $url = "http://".self::URL_API."/".self::version_api."".$this->params['query']."&page=".$this->params['page']."&api_key=".$this->api_key."&language=".$this->api_langage."";
+            $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."&page=".$this->params['page']."&api_key=".$this->api_key."&language=".$this->api_langage."";
         }
         else
         {
-           $url = "http://".self::URL_API."/".self::version_api."".$this->params['query']."?&api_key=".$this->api_key."&language=".$this->api_langage."";
+           $url = "http://".self::url_api."/".self::version_api."".$this->params['query']."?&api_key=".$this->api_key."&language=".$this->api_langage."";
         }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
