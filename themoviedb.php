@@ -11,7 +11,6 @@ class TheMovieDB{
     private $api_langage;
     private $params = [];
 
-
     /**
      * @param $api_key
      * @param string $api_langage
